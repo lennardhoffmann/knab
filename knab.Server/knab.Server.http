@@ -1,0 +1,6 @@
+@knab.Server_HostAddress = http://localhost:5239
+
+GET {{knab.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
