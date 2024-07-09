@@ -12,16 +12,4 @@ namespace knab.DataAccess.Models
         public string Symbol { get; set; }
         public string Slug { get; set; }
     }
-
-    public class CryptoCurrencyPropertyItem
-    {
-        public string Name { get; set; }
-        public string Symbol { get; set; }
-        public string Slug { get; set; }
-    }
-
-    public class CryptoResponse
-    {
-        public List<CryptoCurrencyPropertyItem> Data { get; set; }
-    }
 }

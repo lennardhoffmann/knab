@@ -18,9 +18,10 @@ namespace knab.DataAccess.Repositories
             return;
         }
 
-        public Task GetCryptoCurrencyPropertiesAsync()
+        public async Task<List<CryptoCurrencyProperty>> GetCryptoCurrencyPropertiesAsync()
         {
-            return null;
+            var result = await _collection.Find(Builders<CryptoCurrencyProperty>.Filter.Empty).ToListAsync();
+            return result;
         }
     }
 }

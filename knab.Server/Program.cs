@@ -1,7 +1,7 @@
 using knab.api.Extensions;
 using knab.API.Extensions;
-using knab.API.Services;
-using knab.ExternalCryptoDataProvider.Services;
+using knab.DataAccess.Services;
+using knab.Shared.Services;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -14,15 +14,15 @@ builder.Services.AddMemoryCache();
 builder.Services.AddMongoDatabase(builder.Configuration);
 builder.Services.AddRepository();
 
-builder.Services.AddHttpClient<IExternalCryptoProviderService, ExternalCryptoProviderService>();
+builder.Services.AddHttpClient();
 
 // Add configuration
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
-
 builder.Services.AddScoped<ICryptoCurrencyDataService, CryptoCurrencyDataService>();
 builder.Services.AddScoped<IExternalCryptoProviderService, ExternalCryptoProviderService>();
 builder.Services.AddScoped<CryptoDataProviderSettingsService>();
+builder.Services.AddScoped<CryptoCurrencyPropertyService>();
 
 builder.Services.AddLogging(loggingBuilder =>
 {

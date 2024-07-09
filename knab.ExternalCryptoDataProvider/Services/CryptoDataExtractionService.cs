@@ -1,7 +1,7 @@
-﻿using knab.ExternalCryptoDataProvider.Models;
+﻿using knab.Shared.Models;
 using System.Text.Json;
 
-namespace knab.ExternalCryptoDataProvider.Services
+namespace knab.Shared.Services
 {
     public static class CryptoDataExtractionService
     {
@@ -19,14 +19,15 @@ namespace knab.ExternalCryptoDataProvider.Services
         {
             var quotes = new Dictionary<string, ExternalCryptoDataProviderCryptoQuote>();
 
-            if (cryptoResponse.Data.TryGetValue(cryptoCurrencyCode, out var cryptoDataList))
+            if (cryptoResponse.Data.TryGetValue(cryptoCurrencyCode, out var cryptoData))
             {
-                foreach (var cryptoData in cryptoDataList)
+                foreach (var quote in cryptoData.Quote)
                 {
-                    foreach (var quote in cryptoData.Quote)
+                    quotes[quote.Key] = new ExternalCryptoDataProviderCryptoQuote
                     {
-                        quotes[quote.Key] = quote.Value;
-                    }
+                        Price = quote.Value.Price,
+                        LastUpdated = quote.Value.LastUpdated
+                    };
                 }
             }
 

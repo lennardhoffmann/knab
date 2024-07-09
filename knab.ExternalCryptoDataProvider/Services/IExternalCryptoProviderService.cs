@@ -1,11 +1,6 @@
-﻿using knab.ExternalCryptoDataProvider.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using knab.Shared.Models;
 
-namespace knab.ExternalCryptoDataProvider.Services
+namespace knab.Shared.Services
 {
     public interface IExternalCryptoProviderService
     {

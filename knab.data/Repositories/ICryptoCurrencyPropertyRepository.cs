@@ -9,7 +9,6 @@ namespace knab.DataAccess.Repositories
 {
     public interface ICryptoCurrencyPropertyRepository
     {
-        Task AddCryptoCurrencypropertyAsync(CryptoCurrencyProperty currencyproperty);
-        Task GetCryptoCurrencyPropertiesAsync();
+        Task<List<CryptoCurrencyProperty>> GetCryptoCurrencyPropertiesAsync();
     }
 }

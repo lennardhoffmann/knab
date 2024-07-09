@@ -1,10 +1,10 @@
 ﻿using knab.DataAccess.Models;
 using knab.DataAccess.Repositories;
-using knab.ExternalCryptoDataProvider.Models;
+using knab.Shared.Models;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
-using System.Text.Json;
 
-namespace knab.API.Services
+namespace knab.DataAccess.Services
 {
     public class CryptoCurrencyDataService : ICryptoCurrencyDataService
     {
@@ -12,52 +12,22 @@ namespace knab.API.Services
         private const int MaxRetryAttempts = 3;
         private readonly TimeSpan RetryDelay = TimeSpan.FromSeconds(3);
         private readonly ILogger<CryptoCurrencyDataService> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ICryptoCurrencyPropertyRepository _cryptoCurrencyPropertyRepository;
+        private readonly CryptoCurrencyPropertyService _propertyService;
 
-        public CryptoCurrencyDataService(ICryptoCurrencyDataRequestRepository dataRequestRepository, ILogger<CryptoCurrencyDataService> logger, IHttpClientFactory httpClientFactory, ICryptoCurrencyPropertyRepository cryptoCurrencyPropertyRepository)
+        public CryptoCurrencyDataService(
+            ICryptoCurrencyDataRequestRepository dataRequestRepository,
+            ILogger<CryptoCurrencyDataService> logger,
+           CryptoCurrencyPropertyService propertyService)
         {
             _dataRequestRepository = dataRequestRepository ?? throw new ArgumentNullException(nameof(dataRequestRepository));
             _logger = logger;
-            _httpClientFactory = httpClientFactory;
-            _cryptoCurrencyPropertyRepository = cryptoCurrencyPropertyRepository;
+            _propertyService = propertyService;
         }
-        public async Task GetCryptoCurrencyProperties()
+        public async Task<List<CryptoCurrencyProperty>> GetCryptoCurrencyProperties()
         {
-            var client = _httpClientFactory.CreateClient();
+            var currencyProperties = await _propertyService.GetCryptoCurrencyPropertiesAsync();
 
-            var baseAddress = new Uri($"https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest");
-            var request = new HttpRequestMessage(HttpMethod.Get, baseAddress);
-
-
-            request.Headers.Add("X-CMC_PRO_API_KEY", "eaf04d66-cd6a-4574-bd45-a129a9c9605b");
-
-
-            var response = await client.SendAsync(request, cancellationToken: default);
-            response.EnsureSuccessStatusCode();
-            var data = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            var cryptoResponse = JsonSerializer.Deserialize<CryptoResponse>(data, options);
-
-            List<CryptoCurrencyPropertyItem> cryptoList = cryptoResponse.Data;
-
-            foreach (var cryptoCurrencyProperty in cryptoList)
-            {
-                var prop = new CryptoCurrencyProperty
-                {
-                    Name = cryptoCurrencyProperty.Name,
-                    Symbol = cryptoCurrencyProperty.Symbol,
-                    Slug = cryptoCurrencyProperty.Slug
-                };
-
-                await _cryptoCurrencyPropertyRepository.AddCryptoCurrencypropertyAsync(prop);
-            }
-
-            return;
+            return currencyProperties;
         }
 
         public async Task StoreRequestForCryptoCurrency(string cryptoCurrencyCode, Dictionary<string, ExternalCryptoDataProviderCryptoQuote> externalCryptoResponse)

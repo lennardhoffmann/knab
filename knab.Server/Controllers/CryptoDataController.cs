@@ -1,5 +1,5 @@
-﻿using knab.API.Services;
-using knab.ExternalCryptoDataProvider.Services;
+﻿using knab.DataAccess.Services;
+using knab.Shared.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,19 +17,20 @@ namespace knab.API.Controllers
             _externalCryptoProviderService = externalCryptoProviderService;
             _cryptoDataService = cryptoService;
         }
-        // GET: api/<CryptoData>
-        [HttpGet]
+
+        [HttpGet("getCryptoProperties")]
         public async Task<IActionResult> GetCryptoProperties()
         {
-            await _cryptoDataService.GetCryptoCurrencyProperties();
-            return Ok();
+            var result = await _cryptoDataService.GetCryptoCurrencyProperties();
+
+            return Ok(result);
         }
 
         [HttpGet("{cryptoCurrency}")]
         public async Task<IActionResult> GetExternalCryptoCurrencyData(string cryptoCurrency)
         {
-            var result = await _externalCryptoProviderService.GetExternalCryptoDataForCurrencyCodeAsync(cryptoCurrency);
-            await _cryptoDataService.StoreRequestForCryptoCurrency(cryptoCurrency, result);
+            var result = await _externalCryptoProviderService.GetExternalCryptoDataForCurrencyCodeAsync(cryptoCurrency.ToUpper());
+            await _cryptoDataService.StoreRequestForCryptoCurrency(cryptoCurrency.ToUpper(), result);
 
             return Ok(result);
         }

@@ -1,26 +1,34 @@
-﻿using knab.ExternalCryptoDataProvider.Models;
+﻿using knab.DataAccess.Services;
+using knab.Shared.Models;
 using Microsoft.Extensions.Logging;
 
-namespace knab.ExternalCryptoDataProvider.Services
+namespace knab.Shared.Services
 {
     public class ExternalCryptoProviderService : IExternalCryptoProviderService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly CryptoDataProviderSettingsService _settingsService;
+        private readonly CryptoCurrencyPropertyService _propertyService;
         private readonly ILogger<ExternalCryptoProviderService> _logger;
 
-        public ExternalCryptoProviderService(IHttpClientFactory httpClientFactory, CryptoDataProviderSettingsService settingsService, ILogger<ExternalCryptoProviderService> logger)
+        public ExternalCryptoProviderService(
+            IHttpClientFactory httpClientFactory,
+            CryptoDataProviderSettingsService settingsService,
+            CryptoCurrencyPropertyService propertyService,
+            ILogger<ExternalCryptoProviderService> logger)
         {
             _httpClientFactory = httpClientFactory;
             _settingsService = settingsService;
+            _propertyService = propertyService;
             _logger = logger;
         }
 
         public async Task<Dictionary<string, ExternalCryptoDataProviderCryptoQuote>> GetExternalCryptoDataForCurrencyCodeAsync(string cryptoCurrencyCode)
         {
+            var currencyProperties = (await _propertyService.GetCryptoCurrencyPropertiesAsync()).FirstOrDefault(x => x.Symbol == cryptoCurrencyCode) ?? throw new Exception($"Invalid crypto currency code provided: {cryptoCurrencyCode}");
             try
             {
-                var request = await BuildHttpClientRequestForData(cryptoCurrencyCode);
+                var request = await BuildHttpClientRequestForData(currencyProperties.Slug);
                 var httpClient = _httpClientFactory.CreateClient();
 
                 var response = await httpClient.SendAsync(request, cancellationToken: default);
@@ -28,7 +36,7 @@ namespace knab.ExternalCryptoDataProvider.Services
                 var data = await response.Content.ReadAsStringAsync();
 
                 var deserializedResponse = CryptoDataExtractionService.DeserializeCryptoData(data);
-                var structuredResponse = CryptoDataExtractionService.ExtractQuotes(deserializedResponse, cryptoCurrencyCode);
+                var structuredResponse = CryptoDataExtractionService.ExtractQuotes(deserializedResponse, currencyProperties.Slug);
 
                 return structuredResponse;
             }
@@ -49,10 +57,10 @@ namespace knab.ExternalCryptoDataProvider.Services
             }
         }
 
-        private async Task<HttpRequestMessage> BuildHttpClientRequestForData(string cryptoCurrencyCode)
+        private async Task<HttpRequestMessage> BuildHttpClientRequestForData(string cryptoCurrencySlug)
         {
             var providerSettings = await _settingsService.GetCryptoProviderSettingsAsync();
-            var baseAddress = new Uri($"{providerSettings.BaseUrl}/quotes/latest?convert={providerSettings.RequiredCurrencies}&symbol={cryptoCurrencyCode}");
+            var baseAddress = new Uri($"{providerSettings.BaseUrl}/quotes/latest?slug={cryptoCurrencySlug}&convert={providerSettings.RequiredCurrencies}");
             var request = new HttpRequestMessage(HttpMethod.Get, baseAddress);
 
             if (!string.IsNullOrEmpty(providerSettings.Headers))

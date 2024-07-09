@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "knab.DataAccess", "knab.dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "knab.ExternalCryptoDataProvider", "knab.ExternalCryptoDataProvider\knab.ExternalCryptoDataProvider.csproj", "{4C56FECB-8D2B-414D-8DBC-7370FB48784E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "knab.Tests", "knab.Tests\knab.Tests.csproj", "{B9609A82-653B-45C3-A46C-6CE9860E5EB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "knab.Tests", "knab.Tests\knab.Tests.csproj", "{B9609A82-653B-45C3-A46C-6CE9860E5EB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "knab.Shared", "knab.Shared\knab.Shared.csproj", "{21CC603F-FE4A-4D11-BF0F-3D53F5F3067D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{B9609A82-653B-45C3-A46C-6CE9860E5EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9609A82-653B-45C3-A46C-6CE9860E5EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9609A82-653B-45C3-A46C-6CE9860E5EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21CC603F-FE4A-4D11-BF0F-3D53F5F3067D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21CC603F-FE4A-4D11-BF0F-3D53F5F3067D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21CC603F-FE4A-4D11-BF0F-3D53F5F3067D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21CC603F-FE4A-4D11-BF0F-3D53F5F3067D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

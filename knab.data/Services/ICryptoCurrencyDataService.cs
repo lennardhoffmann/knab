@@ -1,10 +1,11 @@
-﻿using knab.ExternalCryptoDataProvider.Models;
+﻿using knab.DataAccess.Models;
+using knab.Shared.Models;
 
-namespace knab.API.Services
+namespace knab.DataAccess.Services
 {
     public interface ICryptoCurrencyDataService
     {
-        Task GetCryptoCurrencyProperties();
+        Task<List<CryptoCurrencyProperty>> GetCryptoCurrencyProperties();
         Task StoreRequestForCryptoCurrency(string cryptoCurrencyCode, Dictionary<string, ExternalCryptoDataProviderCryptoQuote> externalCryptoResponse);
     }
 }

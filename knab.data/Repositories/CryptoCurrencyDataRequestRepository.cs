@@ -25,7 +25,7 @@ namespace knab.DataAccess.Repositories
 
         public async Task UpdateDataRequestForCryptoCurrencyAsync(CryptoCurrencyDataRequest requestObject)
         {
-            var filter = Builders<CryptoCurrencyDataRequest>.Filter.Eq("currencyCode", requestObject.CurrencyCode);
+            var filter = Builders<CryptoCurrencyDataRequest>.Filter.Eq("CurrencyCode", requestObject.CurrencyCode);
             var update = Builders<CryptoCurrencyDataRequest>.Update
            .Set(record => record.History, requestObject.History);
 

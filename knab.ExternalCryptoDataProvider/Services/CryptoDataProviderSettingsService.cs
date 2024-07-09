@@ -3,10 +3,8 @@ using knab.DataAccess.Repositories;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
-namespace knab.ExternalCryptoDataProvider.Services
+namespace knab.Shared.Services
 {
     public class CryptoDataProviderSettingsService
     {
