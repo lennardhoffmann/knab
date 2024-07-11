@@ -47,8 +47,6 @@ export default function CryptoDataComponent() {
           lastUpdated: new Date(res[key].last_updated).toLocaleString(), // Format the date
         }));
 
-        console.log("ROWS", rows);
-
         setState({ ...state, dataForCurrency: rows });
       })
       .then(() => {
@@ -69,8 +67,7 @@ export default function CryptoDataComponent() {
       {!cryptoCurrencies && (
         <>
           <label className="labelStyling">
-            Here we will retrieve thedifferent crypto currencies. Click the
-            button below to retrieve the currencies.
+            Click the button below to retrieve the different crypto currencies.
           </label>
           <Button
             variant="contained"
@@ -85,8 +82,8 @@ export default function CryptoDataComponent() {
       {cryptoCurrencies && cryptoCurrencies.length && (
         <>
           <label className="labelStyling">
-            From the following dropdown you can select a cryptocurrency for
-            which you would like to retrieve the rates for.
+            Select a cryptocurrency for which you would like to retrieve the
+            rates for.
           </label>
           <TextField
             select

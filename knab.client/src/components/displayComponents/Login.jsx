@@ -27,10 +27,6 @@ export default function LoginComponent() {
   return (
     <div className="containerStyling">
       <label className="labelStyling">
-        This page simulates a Login request that will retrieve a valid jwt token
-        that will be used for further requests
-      </label>
-      <label className="labelStyling">
         Please provide to credentials as specified in the ReadMe file of the
         main solution
       </label>
