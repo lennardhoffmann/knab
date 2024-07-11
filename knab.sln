@@ -53,5 +53,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ACDDD286-F44D-494C-AAE8-9DA238E7C2BA}
+		StartupProjects = knab.API;knab.UI
 	EndGlobalSection
 EndGlobal
