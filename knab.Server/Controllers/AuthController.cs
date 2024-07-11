@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using knab.API.Authorization;
+using knab.API.Authorization.Models;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +10,35 @@ namespace knab.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        // GET: api/<AuthController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly JwtHelper _jwtHelper;
+        private readonly CredentialValidatorService _credentialValidatorService;
+        public AuthController(JwtHelper jwtHelper, CredentialValidatorService credentialValidatorService)
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<AuthController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            _jwtHelper = jwtHelper;
+            _credentialValidatorService = credentialValidatorService;
         }
 
         // POST api/<AuthController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("simulate-login")]
+        public IActionResult Login([FromBody] AuthRequest credentials)
         {
-        }
+            try
+            {
+                _credentialValidatorService.ValidateCredentials(credentials);
 
-        // PUT api/<AuthController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+                var token = _jwtHelper.GenerateJwtToken(credentials.Username);
 
-        // DELETE api/<AuthController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                return Ok(new { Token = token });
+            }
+            catch (BadHttpRequestException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (optional)
+                return StatusCode(500, new { Message = "An unexpected error occurred.", Details = ex.Message });
+            }
         }
     }
 }
