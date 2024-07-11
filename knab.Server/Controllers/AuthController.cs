@@ -18,7 +18,9 @@ namespace knab.API.Controllers
             _credentialValidatorService = credentialValidatorService;
         }
 
-        // POST api/<AuthController>
+        /// <summary>
+        /// Retrieves all crypto currency properties from the database.
+        /// </summary>
         [HttpPost("simulate-login")]
         public IActionResult Login([FromBody] AuthRequest credentials)
         {
