@@ -3,7 +3,8 @@ Welcome the solution for my Knab assessment
 Here I will give some more detail regarding the solution.
 
 General:
--The solution is a React with .netCoreWebApi template. So when starting the solution both the api as well as the UI will start up.
+-The solution is a React with .netCoreWebApi template. 
+-To have both the api and the ui start up set multiple startup projects in the main solution
 
 API:
 Auth endpoint
