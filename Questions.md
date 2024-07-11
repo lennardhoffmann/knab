@@ -3,7 +3,7 @@ Technical questions:
 more time? If you didn't spend much time on the coding assignment then use this as an opportunity to
 explain what you would add.
 
-I spent around 10-12 hours. I wanted to build a really robust solution as I REALLy want to impress Knab.
+I spent around 10-12 hours. I wanted to build a really robust solution as I REALLY want to impress Knab.
 If I had more time I would build a much better UI, add containerization and even keep track of the search history for a specific currency searched. 
 I have already done some of the groundwork for that as I do actually save a history of serch requests for a currency in mongoAtlas
 
@@ -27,8 +27,8 @@ System.Text.Json Serialization updates. I used it quite a bit in my solution. Th
 
  
 3. How would you track down a performance issue in production? Have you ever had to do this?
-Logs, logs logs. By identifying the service or functionality which is causing the issue you can further investigate by debugging these piecesof code to determine the root cause of the performance issue
 
+Logs, logs logs. By identifying the service or functionality which is causing the issue you can further investigate by debugging these piecesof code to determine the root cause of the performance issue
 Although on the UI that is not always possible or that easy.
 
 
@@ -36,16 +36,14 @@ Although on the UI that is not always possible or that easy.
 4. What was the latest technical book you have read or tech conference you have been to? What did you
 learn?
 
-The last tech conference I attended was the AWS summit in Amsterdam in 2023
+The last tech conference I attended was the AWS summit in Amsterdam in 2023. It peaked my interest in further learning to work with AWS. 
+Also gained quite a bit of insight into the architecture of event driven systems
 
 
 
 5. What do you think about this technical assessment?
 
-1. It was a lot of fun. it allowed me to reallyplay around and build a very robust mini application
-
-
-
+It was a lot of fun. It allowed me to really play around and build a very robust mini application.
 
 
 
